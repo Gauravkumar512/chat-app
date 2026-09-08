@@ -3,6 +3,7 @@ import ApiResponse from "../utils/ApiResponse";
 import ApiError from "../utils/ApiError";
 import type { Request, Response, RoomCreatedPayload } from "../types/index";
 import { Room } from "../models/Room";
+import { Message } from "../models/Message";
 import { io } from "../socket";
 
 
@@ -72,6 +73,7 @@ export const deleteRoom = asyncHandler(async (req: Request, res: Response)=>{
         throw new ApiError(403, "You are not authorized to delete this room")
     }
 
+    await Message.deleteMany({ room: id });
     await room.deleteOne();
 
     if (io) {
