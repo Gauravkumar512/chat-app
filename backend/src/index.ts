@@ -14,7 +14,7 @@ import auth from "./routes/auth.routes";
 import room from "./routes/room.routes";
 import message from "./routes/message.routes";
 import { errorHandler } from './middleware/error.middleware';
-
+import helmet from 'helmet';
 
 const port = Number(process.env.PORT)
 const app = express()
@@ -35,6 +35,7 @@ app.use(passport.initialize())
 app.use(express.json())
 app.use(express.urlencoded({extended: true, limit: '1mb'}))
 app.use(express.static('public'))
+app.use(helmet());
 
 app.get('/', (_req, res) => {
     return res.status(200).json({
